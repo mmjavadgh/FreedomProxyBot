@@ -1,29 +1,36 @@
 name: Proxy Poster
 
+name: Run Python Script
+
 on:
   schedule:
-    - cron:  '*/1 * * * *'
+    - cron:  '0,30 * * * *'  # اجرا هر نیم ساعت
+  workflow_dispatch:
 
 jobs:
-  post_proxy:
+  run-script:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
-        
+        uses: actions/checkout@v3  # به‌روزرسانی به آخرین نسخه
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v4  # به‌روزرسانی به آخرین نسخه
         with:
           python-version: '3.9'
 
       - name: Install dependencies
         run: |
-          pip install python-telegram-bot requests schedule
+          python -m pip install --upgrade pip
+          pip install requests python-telegram-bot schedule
 
       - name: Run the script
+        run: python your-script.py
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          JSON_URL: ${{ secrets.JSON_URL }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          JSON_URL: 'https://raw.githubusercontent.com/yebekhe/MTProtoCollector/main/proxy/mtproto.json'
+
         run: |
           python path/to/post_proxies.py
