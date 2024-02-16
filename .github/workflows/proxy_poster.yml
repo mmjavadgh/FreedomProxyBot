@@ -26,4 +26,4 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           JSON_URL: ${{ secrets.JSON_URL }}
         run: |
-          python path/to/your_script.py
+          python path/to/post_proxies.py
