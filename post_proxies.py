@@ -22,7 +22,7 @@ def format_proxy(proxy):
     return {"server": proxy["ip"], "port": proxy["port"], "link": link}
 
 def send_message(bot, message):
-    response = bot.send_message(chat_id="https://t.me/FreedomMtProtoProxy", text=message)
+    response = bot.send_message(chat_id="889383653", text=message)
     if response.ok:
         print("Message sent successfully")
     else:
