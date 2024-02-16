@@ -24,6 +24,7 @@ jobs:
       - name: Run the script
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
           JSON_URL: ${{ secrets.JSON_URL }}
         run: |
           python path/to/post_proxies.py
