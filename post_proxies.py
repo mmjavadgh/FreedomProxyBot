@@ -1,49 +1,32 @@
-import requests
-import time
 import json
+import requests
 from telegram import Bot
+import schedule
+import time
 
-def get_proxies():
-    # Fetch the proxy list from the provided URL
-    response = requests.get("https://raw.githubusercontent.com/yebekhe/MTProtoCollector/main/proxy/mtproto.json")
-    if response.status_code != 200:
-        raise Exception(f"Failed to fetch proxy list: {response.text}")
-    
-    return response.json()["result"]
+# توکن ربات و شناسه کانال را وارد کنید
+TOKEN = '6717683305:AAGJoVLAXI8eh5QaHB4Ic2_cZvpMT4ynE3Y'
+CHANNEL_ID = '@FreedomMtProtoProxy'
+bot = Bot(token=TOKEN)
 
-def format_proxy(proxy):
-    query_params = {
-        "server": proxy["ip"],
-        "port": proxy["port"],
-        "secret": proxy["token"],
-        "name": proxy["username"]
-    }
-    link = f"https://t.me/{proxy['username']}/proxy?{urllib.parse.urlencode(query_params)}"
-    return {"server": proxy["ip"], "port": proxy["port"], "link": link}
+# آدرس فایل JSON را وارد کنید
+JSON_URL = 'https://raw.githubusercontent.com/yebekhe/MTProtoCollector/main/proxy/mtproto.json'
 
-def send_message(bot, message):
-    response = bot.send_message(chat_id="889383653", text=message)
-    if response.ok:
-        print("Message sent successfully")
-    else:
-        raise Exception(f"Failed to send message: {response.content}")
+def fetch_proxy_data():
+    response = requests.get(JSON_URL)
+    proxy_data = response.json()
+    return proxy_data
 
-if __name__ == "__main__":
-    config = json.load(open("config.json"))
-    bot = Bot(token=config["telegramBotToken"])
+def post_proxy_to_channel():
+    proxy_data = fetch_proxy_data()
+    message_text = f"Server: {proxy_data['query']['server']}\n" \
+                   f"Port: {proxy_data['query']['port']}\n" \
+                   f"Secret: {proxy_data['query']['secret']}\n" \
+                   f"Link: {proxy_data['link']}"
+    bot.send_message(chat_id=CHANNEL_ID, text=message_text)
 
-    while True:
-        try:
-            proxies = get_proxies()
-            formatted_proxies = [format_proxy(p) for p in proxies]
-            
-            messages = []
-            for p in formatted_proxies:
-                message = f"🔗 Server: {p['server']}\n🌐 Port: {p['port']}\n🔒 Link: {p['link']}"
-                messages.append(message)
+schedule.every(1).minutes.do(post_proxy_to_channel)
 
-            send_message(bot, "\n".join(messages))
-        except Exception as e:
-            print(e)
-
-        time.sleep(config["postIntervalMinutes"] * 60)
+while True:
+    schedule.run_pending()
+    time.sleep(1)
