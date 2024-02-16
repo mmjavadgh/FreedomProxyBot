@@ -46,4 +46,4 @@ if __name__ == "__main__":
         except Exception as e:
             print(e)
 
-        time.sleep(config["postIntervalMinutes"] * 60)
+        time.sleep(config["postIntervalMinutes"] * 1)
