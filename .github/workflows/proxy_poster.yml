@@ -1,0 +1,29 @@
+name: Proxy Poster
+
+on:
+  schedule:
+    - cron:  '*/1 * * * *'
+
+jobs:
+  post_proxy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+        
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          pip install python-telegram-bot requests schedule
+
+      - name: Run the script
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          JSON_URL: ${{ secrets.JSON_URL }}
+        run: |
+          python path/to/your_script.py
