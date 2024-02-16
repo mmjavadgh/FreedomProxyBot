@@ -1,7 +1,5 @@
 name: Proxy Poster
 
-name: Run Python Script
-
 on:
   schedule:
     - cron:  '0,1 * * * *'  # اجرا هر نیم ساعت
