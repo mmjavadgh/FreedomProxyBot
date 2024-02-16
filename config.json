@@ -1,6 +1,6 @@
 {
   "telegramBotToken": "6717683305:AAGJoVLAXI8eh5QaHB4Ic2_cZvpMT4ynE3Y",
-  "telegramChatId": "https://t.me/FreedomMtProtoProxy",
+  "telegramChatId": "889383653",
   "proxyListUrl": "https://raw.githubusercontent.com/yebekhe/MTProtoCollector/main/proxy/mtproto.json",
   "postIntervalMinutes": 1
 }
